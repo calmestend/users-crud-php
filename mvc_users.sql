@@ -9,4 +9,4 @@ CREATE TABLE users (
 	password VARCHAR(50) NOT NULL ,
 	active INT(1) NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
