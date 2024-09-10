@@ -42,7 +42,7 @@ class User
         $this->active = $active;
     }
 
-    public function select(): array
+    public function select(): array|bool
     {
         $query = "SELECT * FROM users";
 
@@ -51,25 +51,11 @@ class User
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function selectByUsername(): array
-    {
-        $query = "SELECT * FROM users WHERE username = ?";
-
-        $this->username = htmlspecialchars(strip_tags($this->username));
-
-        $statement = $this->conn->prepare($query);
-
-        $statement->bindParam(1, $this->username);
-
-        $statement->execute();
-
-        return $statement->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function insert(): bool
+    public function insert(): PDOStatement|bool
     {
         $query =
             "INSERT INTO users (username, email, password, active) VALUES (?, ?, ?, 1)";
+
         $this->username = htmlspecialchars(strip_tags($this->username));
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->password = htmlspecialchars(strip_tags($this->password));
@@ -85,32 +71,27 @@ class User
 
     public function activeHandler(): bool
     {
-        $query = "UPDATE users SET active = ? WHERE user_id = ?";
-
-        $this->active = htmlspecialchars(strip_tags($this->active));
-        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
+        $query = "UPDATE users SET active = 0 WHERE user_id = ?";
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindParam(1, $this->active ? 1 : 0);
-        $statement->bindParam(2, $this->user_id);
+        $statement->bindParam(1, $this->user_id);
 
         return $statement->execute() ? true : false;
     }
 
     public function update(): bool
     {
-        $query = "UPDATE users SET username = ?, email = ?, password = ?";
+        $query = "UPDATE users SET username = ?, email = ? WHERE user_id = ?";
 
         $this->username = htmlspecialchars(strip_tags($this->username));
         $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->password = htmlspecialchars(strip_tags($this->password));
 
         $statement = $this->conn->prepare($query);
 
         $statement->bindParam(1, $this->username);
         $statement->bindParam(2, $this->email);
-        $statement->bindParam(3, $this->password);
+        $statement->bindParam(3, $this->user_id);
 
         return $statement->execute() ? true : false;
     }

@@ -9,15 +9,15 @@
     <?php require "nav.php"; ?>
 
     <h1>Create User</h1>
-		<form action="/create.php" method="POST">
+		<form action="/mvc_users/create.php" method="POST">
 		    <label for="username">Username</label>
-			<input type="text" name="username" id="username">
+			<input type="text" name="username" id="username" required>
 
 		    <label for="email">Email</label>
-			<input type="email" name="email" id="email">
+			<input type="email" name="email" id="email" required>
 
 		    <label for="password">Password</label>
-			<input type="password" name="password" id="password">
+			<input type="password" name="password" id="password" required>
 
 			<button type="submit">Create User</button>
 		</form>
