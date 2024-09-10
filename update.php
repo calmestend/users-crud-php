@@ -1,1 +1,6 @@
-<h1>Update</h1>
+<?php
+require "src/models/Database.php";
+require "src/models/User.php";
+require "src/controllers/UserController.php";
+$userController = new UserController();
+$userController->updateUser();

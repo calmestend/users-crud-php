@@ -25,6 +25,12 @@ class UserController
         $users = $this->user->select();
         require "src/views/deleteUser.php";
     }
+
+    public function updateUser(): void
+    {
+        $users = $this->user->select();
+        require "src/views/updateUser.php";
+    }
 }
 
 ?>
